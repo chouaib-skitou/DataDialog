@@ -1,0 +1,12 @@
+{
+  "$id": "stage",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "entreprise": { "type": "string" },
+    "mission":    { "type": "string" },
+    "date_debut": { "type": "string", "format": "date" },
+    "date_fin":   { "type": "string", "format": "date" }
+  },
+  "required": ["entreprise", "mission", "date_debut", "date_fin"]
+}
