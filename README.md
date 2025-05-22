@@ -41,7 +41,7 @@
 
 ```bash
 # 1. Clone the repository
-git clone git@github.com:YourUsername/DataDialog.git
+git clone git@github.com:chouaib-skitou/DataDialog.git
 cd DataDialog
 
 # 2. Install dependencies
