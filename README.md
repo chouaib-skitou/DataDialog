@@ -93,7 +93,7 @@
 
 1. **Cloner le dépôt**  
    ```bash
-   git clone <URL_DU_PROJET>
+   git clone https://github.com/chouaib-skitou/DataDialog
    cd DataDialog
    ```
 
