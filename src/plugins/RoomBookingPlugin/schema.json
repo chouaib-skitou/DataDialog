@@ -1,0 +1,12 @@
+{
+  "name": "RoomBookingSchema",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "roomName": { "type": "string", "title": "Nom de la salle" },
+    "bookingDate": { "type": "string", "format": "date", "title": "Date de réservation" },
+    "startTime": { "type": "string", "format": "time", "title": "Heure de début" },
+    "endTime": { "type": "string", "format": "time", "title": "Heure de fin" }
+  },
+  "required": ["roomName", "bookingDate", "startTime", "endTime"]
+}

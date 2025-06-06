@@ -1,116 +1,154 @@
 # DataDialog
 
-**DataDialog** is a React + TypeScript front-end client for creating and viewing structured conversation threads. Each message can include an optional **structured** section validated automatically against JSON Schemas, enabling rich interactions (forms, polls, schedules, etc.) without sacrificing the flexibility of a classic chat interface.
+**DataDialog** est une application de messagerie web moderne facilitant la communication claire grâce à des messages structurés.
 
 ---
 
-## 🚀 Features
+## 🚀 Fonctionnalités Principales
 
-* **Conversation Threads**
+- **Interface de Chat Intuitive**  
+  Expérience utilisateur fluide pour envoyer et recevoir des messages au sein de fils de discussion.
 
-  * Metadata: UUID, title, participants, creation timestamp
-  * Chronological display of messages
+- **Messages Structurés**  
+  Possibilité d'envoyer des données complexes (ex. offres de stage, commandes, questions Oui/Non) via des schémas prédéfinis.
 
-* **Structured Messages**
+- **Schémas Noyau & Extensions**  
+  - **Schéma Noyau** : Types de base (case à cocher, question binaire, etc.).  
+  - **Schémas d’Extension** : Ajoutez facilement de nouveaux schémas métier (stage, réservation, pizza, etc.).
 
-  * Free-text body plus optional `structured` payload
-  * JSON Schema validation to guarantee data integrity
-  * Domain-specific extensions (e.g. “internship”, “pizza order”, etc.)
+- **Organisation en Fils de Discussion**  
+  Groupez les conversations par fils, avec plusieurs participants, pour un suivi plus simple.
 
-* **Dynamic Schema Loading**
-
-  * Load any JSON Schema at runtime following our conventions
-  * Automatic rendering of fields (checkbox, radio, date picker, color picker…)
-
----
-
-## 🛠️ Technologies
-
-* **React** (v18+) — Declarative component-based UI
-* **TypeScript** — Static typing and safer code
-* **JSON Schema** — Formal definition of data structures
-* **Ajv** — JSON Schema validation engine
-* **uuid** — Generation of unique identifiers (UUID v4)
-* **ESLint** & **Prettier** — Linting and code formatting
-* **React Router** (optional) — Navigation between threads
-* **Tailwind CSS** (optional) — Utility-first CSS framework for rapid styling
+- **Navigation Claire**  
+  - Page d'accueil avec présentation du projet.  
+  - Page de chat dédiée pour l'interface de messagerie.
 
 ---
 
-## 📦 Installation
-
-```bash
-# 1. Clone the repository
-git clone git@github.com:chouaib-skitou/DataDialog.git
-cd DataDialog
-
-# 2. Install dependencies
-npm install
-
-# 3. Run in development mode
-npm start
-```
-
-The app will be available at [http://localhost:3000](http://localhost:3000).
-
----
-
-## 📁 Project Structure
+## 📂 Structure du Projet
 
 ```
-DataDialog/
-├── README.md
-├── tsconfig.json
-├── package.json
-├── public/
-│   └── index.html
-└── src/
-    ├── index.tsx
-    ├── App.tsx
-    ├── schema/
-    │   ├── noyau.schema.json
-    │   └── extensions/
-    │       ├── stage.schema.json
-    │       └── pizza.schema.json
-    ├── schema.ts
-    └── components/
-        ├── Thread.tsx
-        ├── Message.tsx
-        └── FieldRenderer.tsx
+/
+├── app/                      # (PRINCIPAL) Next.js App Router
+│   ├── chat/
+│   │   └── page.tsx          # Page principale du chat
+│   ├── globals.css           # Styles globaux (import Tailwind)
+│   ├── layout.tsx            # Mise en page globale (Navbar, Main, Footer)
+│   └── page.tsx              # Page d'accueil
+│
+├── components/               # (PRINCIPAL) Composants React (Next.js)
+│   ├── data-dialog-app.tsx   # Conteneur principal de la messagerie
+│   ├── navbar.tsx            # Barre de navigation
+│   ├── thread-list.tsx       # Liste des fils de discussion
+│   ├── message-area.tsx      # Zone d'affichage et de composition des messages
+│   ├── message-item.tsx      # Composant pour chaque message
+│   └── message-composer.tsx  # Formulaire pour envoyer un message
+│
+├── services/                 # (PRINCIPAL) Logique métier et données côté client
+│   ├── data-service.ts       # Gestion en mémoire des utilisateurs, fils et messages
+│   └── schema-service.ts     # Définitions des schémas (noyau + extensions)
+│
+├── schema-noyau.json         # Schéma JSON principal (core) utilisé par schema-service
+│
+├── src/plugins/              # Schémas d’extension (anciens exemples JSON)
+│   ├── PizzaOrderPlugin/
+│   │   └── schema.json       # Exemple de schéma d’extension pizza
+│   ├── RoomBookingPlugin/
+│   │   └── schema.json       # Exemple de schéma d’extension réservation
+│   └── StageSchemaPlugin/
+│       └── schema.json       # Exemple de schéma d’extension stage
+│
+├── styles/                   # Fichiers CSS (Tailwind, etc.)
+│   └── globals.css
+│
+├── public/                   # Ressources statiques (images, fonts)
+│
+├── types/                    # Définitions TypeScript partagées
+│   └── index.ts
+│
+├── postcss.config.mjs        # Configuration PostCSS
+├── tailwind.config.ts        # Configuration Tailwind CSS
+├── next.config.mjs           # Configuration Next.js
+├── tsconfig.json             # Configuration TypeScript
+└── README.md                 # [Vous êtes ici] Documentation du projet
 ```
 
-* **schema/**: JSON Schemas for the core and extension models
-* **schema.ts**: Imports and exports schemas for use in the app
-* **components/**:
-
-  * `Thread.tsx`: Renders a conversation thread
-  * `Message.tsx`: Renders a message (text + structured fields)
-  * `FieldRenderer.tsx`: Generic renderer for structured field types
+> **⚠️ Note** : Les répertoires `src/` (Vite) et `backend/` datent de versions précédentes et ne sont plus utilisés par la version Next.js active.
 
 ---
 
-## ✍️ Customization & Extensions
+## 🗂️ Emplacement des Schémas
 
-1. **Add a New Schema**
+- **Schéma Noyau** :  
+  - Fichier unique : `schema-noyau.json` (à la racine).  
+  - Chargé par `services/schema-service.ts` pour définir les annotations de base.
 
-   * Place your JSON Schema in `src/schema/extensions/`
-   * Import and register it in `src/schema.ts`
-
-2. **Render New Field Types**
-
-   * Extend `FieldRenderer.tsx` to handle your new `type` values
-   * Implement corresponding input components (e.g. date picker, select)
+- **Schémas d’Extension** :  
+  - Définis directement dans `services/schema-service.ts` (JavaScript).  
+  - Dossiers exemples (non utilisés) : `src/plugins/…/schema.json`.
 
 ---
 
-## 🤝 Contributing
+## ⚙️ Installation & Lancement
 
-1. Fork this repository
-2. Create a branch `feature/your-extension`
-3. Submit a detailed Pull Request
+1. **Cloner le dépôt**  
+   ```bash
+   git clone <URL_DU_PROJET>
+   cd DataDialog
+   ```
+
+2. **Installer les dépendances**  
+   ```bash
+   pnpm install
+   ```
+
+3. **Démarrer en mode développement**  
+   ```bash
+   pnpm dev
+   ```  
+   Rendez-vous sur [http://localhost:3000](http://localhost:3000) pour accéder à l’application.
 
 ---
 
-## 📄 License
+## 📋 Utilisation
 
-This project is released under the MIT License. See the [`LICENSE`](LICENSE) file for details.
+1. **Page d'accueil** (`/`)  
+   Présentation rapide du projet et accès au chat.
+
+2. **Page de Chat** (`/chat`)  
+   - **Liste des fils** : Créez ou sélectionnez un fil de discussion.  
+   - **Affichage des messages** : Découvrez l’historique (texte libre + données structurées).  
+   - **Composer un message** :  
+     - Saisissez du texte libre.  
+     - Ajoutez un élément structuré : choisissez un schéma parmi la liste (case, binaire, stage, pizza, etc.), puis remplissez les champs correspondants.  
+     - Envoyez le message : il s’enregistre en mémoire (perdu au rafraîchissement).
+
+3. **Création de nouveaux fils**  
+   - Cliquez sur « Nouveau fil ».  
+   - Entrez un titre et sélectionnez des participants (IDs prédéfinis : `user-alice`, `user-bob`, `user-charlie`).  
+   - Validez pour générer un nouveau fil.
+
+---
+
+## ⚠️ Limitations Actuelles
+
+- **Stockage en mémoire** : Toutes les données (utilisateurs, fils, messages) sont perdues au rechargement de la page.  
+- **Authentification codée en dur** : L’utilisateur « courant » est fixé à `user-alice`.  
+- **Pas de temps réel** : La messagerie reste monodeviculaire et ne synchronise pas entre onglets/clients.
+
+---
+
+## 🙌 Contributions
+
+Vous souhaitez contribuer ?  
+1. Forkez ce dépôt.  
+2. Créez une branche (`git checkout -b feature/ma-fonctionnalite`).  
+3. Commitez vos modifications (`git commit -m 'Ajout d’une nouvelle fonctionnalité'`).  
+4. Poussez votre branche (`git push origin feature/ma-fonctionnalite`).  
+5. Ouvrez un Pull Request.
+
+---
+
+## 📜 Licence
+
+Ce projet est sous licence MIT. Consultez le fichier [LICENSE](LICENSE) pour plus de détails.

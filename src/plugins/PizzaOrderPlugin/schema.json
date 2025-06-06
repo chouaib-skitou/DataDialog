@@ -1,0 +1,11 @@
+{
+  "name": "PizzaOrderSchema",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "pizzaType": { "type": "string", "title": "Type de Pizza" },
+    "size": { "type": "string", "title": "Taille", "enum": ["Petite", "Moyenne", "Grande"] },
+    "quantity": { "type": "integer", "title": "Quantité", "minimum": 1 }
+  },
+  "required": ["pizzaType", "size", "quantity"]
+}

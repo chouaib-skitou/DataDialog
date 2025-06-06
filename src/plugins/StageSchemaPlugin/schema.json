@@ -1,0 +1,22 @@
+{
+  "name": "StageSchema",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "companyName": { "type": "string", "title": "Nom de l’entreprise" },
+    "internshipTitle": { "type": "string", "title": "Intitulé du stage" },
+    "missionDescription": { "type": "string", "title": "Description de la mission", "format": "textarea" },
+    "startDate": { "type": "string", "format": "date", "title": "Date de début" },
+    "endDate": { "type": "string", "format": "date", "title": "Date de fin" },
+    "supervisorName": { "type": "string", "title": "Responsable du stage" },
+    "weeklyHours": { "type": "integer", "title": "Heures hebdomadaires" },
+    "remuneration": { "type": "number", "title": "Rémunération (€)" },
+    "requiredSkills": {
+      "type": "array",
+      "title": "Compétences requises",
+      "items": { "type": "string" }
+    },
+    "applicationDeadline": { "type": "string", "format": "date", "title": "Date limite de candidature" }
+  },
+  "required": ["companyName", "internshipTitle", "startDate", "endDate", "supervisorName"]
+}
